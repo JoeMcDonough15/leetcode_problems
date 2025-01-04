@@ -66,15 +66,15 @@ current position + 1 is greater than the length of the longest string we've seen
 def longest_substring_optimized(string):
     last_seen = {}
     longest_so_far = ''
-    startIdx = 0
+    start_idx = 0
     for current_index in range(0, len(string)):
         current_char = string[current_index]
         if current_char in last_seen:
-            startIdx = max(startIdx, last_seen[current_char] + 1)
+            start_idx = max(start_idx, last_seen[current_char] + 1)
         last_seen[current_char] = current_index
-        current_substring = string[startIdx:current_index + 1]
-        if len(current_substring) > len(longest_so_far):
-            longest_so_far = current_substring
+        if  (current_index + 1) - start_idx > len(longest_so_far):
+            longest_so_far = string[start_idx:current_index + 1]
+
     
     return longest_so_far
 
