@@ -13,7 +13,9 @@ I think the time complexity would be O(n^2) because we need to loop through the 
 in the string, we have to repetitively loop through millions of characters, even if the inner loop is not starting at the beginning of the string more than once.
 
 I think the space complexity would be O(n).  Each iteration of the inner loop, we are building a new string that starts empty and ends with potentially many characters.
-We are not storing more than one of these, however, since current_substring is reset at each iteration of the outer loop.
+We are not storing more than one of these, however, since current_substring is reset at each iteration of the outer loop.  Might be O(1) space,
+since the constraint to the problem dictates that we are only using Unicode characters, since there's a constant number of those characters and we can't have duplicates in
+the substring.
 
 example input/output:
 original_string = "clementisacap"
@@ -53,7 +55,8 @@ def longest_substring(original_string):
 # print(longest_substring('')) # ''
 
 ''' 
-We can solve this problem more efficiently by traversing the string and storing the last position at which we see each character in a hash table
+Sliding Window Solution 1
+We can solve this problem more efficiently by traversing the string and storing the last position at which we see each character in a hash map
  which we'll call lastSeen. We'll also keep track of the longest string we've seen so far. As we traverse the string we'll keep track of a 
  variable called startIdx which will represent the most recent index from which we can start a substring with no duplicate characters, 
  ending at the current index. If we come across a character that we've already seen then we'll update our startIdx to be the maximum of the 
@@ -80,8 +83,35 @@ def longest_substring_optimized(string):
 
 
 
-print(longest_substring_optimized('clementisacap')) # "mentisac"
-print(longest_substring_optimized("aaaaaaaaaaaa")) # "a"
-print(longest_substring_optimized('')) # ''
+# print(longest_substring_optimized('clementisacap')) # "mentisac"
+# print(longest_substring_optimized("aaaaaaaaaaaa")) # "a"
+# print(longest_substring_optimized('')) # ''
 
 ## The time complexity on the above solution is O(n) & the space is O(min(n, a)) where n is the length of the string and a is the number of unique characters in the string.
+
+## Sliding Window Solution 2 - this solution returns only the length of the longest substring, but it's the same concept
+## Complexity: O(n) Time and O(1) Space (I think!  Maximum number of characters in our set should be limited to the number of unique Unicode characters)
+
+def lengthOfLongestSubstring(s: str) -> int:
+    characters = set()
+    left = 0
+    longestSoFar = 0
+    for right in range(0, len(s)):
+        currentChar = s[right]
+        while currentChar in characters:
+            characters.remove(s[left])
+            left += 1
+        characters.add(currentChar)
+        currentSubStringLength = len(characters) # since the set represents every character of the current substring
+        if currentSubStringLength > longestSoFar:
+            longestSoFar = currentSubStringLength # we could capture the substring itself with s[left : right + 1] instead of a number
+    
+    return longestSoFar
+
+print(lengthOfLongestSubstring('clementisacap')) # "mentisac"
+print(lengthOfLongestSubstring("aaaaaaaaaaaa")) # "a"
+print(lengthOfLongestSubstring('')) # ''
+
+
+
+
