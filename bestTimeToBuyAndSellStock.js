@@ -60,7 +60,11 @@ const prices3 = [4]; // 0
 // Test 4
 const prices4 = [5, 12, 14, 15, 20, 25, 40]; // 35
 
+// Test 5
+const prices5 = [2, 1, 4]; // 3
+
 console.log(maxProfit(prices1));
 console.log(maxProfit(prices2));
 console.log(maxProfit(prices3));
 console.log(maxProfit(prices4));
+console.log(maxProfit(prices5));
