@@ -1,23 +1,23 @@
 class Node {
-  constructor(val) {
+  constructor(val = null) {
     this.val = val;
     this.next = null;
   }
 }
 
 class LinkedList {
-  constructor(val) {
-    this.head = val !== undefined ? new Node(val) : null;
+  constructor() {
+    this.head = new Node();
   }
 
   addToHead = (val) => {
     if (val === undefined) return;
     const newNode = new Node(val);
-    if (!this.head) {
-      this.head = newNode;
+    if (!this.head.next) {
+      this.head.next = newNode;
     } else {
-      newNode.next = this.head;
-      this.head = newNode;
+      newNode.next = this.head.next;
+      this.head.next = newNode;
     }
   };
 }
@@ -34,4 +34,4 @@ myLinkedList.addToHead(4);
 // console.log(myLinkedList);
 
 myLinkedList.addToHead(3);
-// console.log(myLinkedList);
+console.log(myLinkedList);
