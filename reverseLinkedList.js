@@ -53,6 +53,23 @@ class LinkedList {
     currentNode.next = null;
     return nodeToRemove.val;
   };
+
+  reverseLinkedList = () => {
+    if (!this.head.next) return;
+    let previousNodes;
+    let currentNode = this.head;
+    while (currentNode) {
+      const originalNextNode = currentNode.next;
+      if (previousNodes) {
+        currentNode.next = previousNodes;
+      } else {
+        currentNode.next = null;
+      }
+      previousNodes = currentNode;
+      currentNode = originalNextNode;
+    }
+    this.head = previousNodes;
+  };
 }
 
 const myLinkedList = new LinkedList();
@@ -70,11 +87,25 @@ myLinkedList.addToHead(3);
 
 myLinkedList.addToTail(6);
 
-const removedVal = myLinkedList.removeFromHead();
-console.log(removedVal); // 3
+// Tests to remove from LinkedList
 
-const nextRemovedVal = myLinkedList.removeFromHead();
-console.log(nextRemovedVal); // 4
+// const removedVal = myLinkedList.removeFromHead();
+// console.log(removedVal); // 3
 
-const removedLastNode = myLinkedList.removeFromTail();
-console.log(removedLastNode); // 6
+// const nextRemovedVal = myLinkedList.removeFromHead();
+// console.log(nextRemovedVal); // 4
+
+// const removedLastNode = myLinkedList.removeFromTail();
+// console.log(removedLastNode); // 6
+
+myLinkedList.addToHead(2);
+myLinkedList.addToHead(1);
+
+myLinkedList.reverseLinkedList();
+console.log(myLinkedList);
+
+let currentNode = myLinkedList.head;
+while (currentNode) {
+  console.log(currentNode.val);
+  currentNode = currentNode.next;
+}
