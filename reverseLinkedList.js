@@ -1,23 +1,23 @@
 class Node {
-  constructor(val = null) {
+  constructor(val) {
     this.val = val;
     this.next = null;
   }
 }
 
 class LinkedList {
-  constructor() {
-    this.head = new Node();
+  constructor(val) {
+    this.head = val !== undefined ? new Node(val) : null;
   }
 
   addToHead = (val) => {
     if (val === undefined) return;
     const newNode = new Node(val);
-    if (!this.head.next) {
-      this.head.next = newNode;
+    if (!this.head) {
+      this.head = newNode;
     } else {
-      newNode.next = this.head.next;
-      this.head.next = newNode;
+      newNode.next = this.head;
+      this.head = newNode;
     }
   };
 
@@ -32,9 +32,25 @@ class LinkedList {
   };
 
   removeFromHead = () => {
-    if (!this.head.next) return;
-    const nodeToRemove = this.head.next;
-    this.head.next = nodeToRemove.next;
+    if (!this.head) return;
+    const nodeToRemove = this.head;
+    this.head = nodeToRemove.next;
+    return nodeToRemove.val;
+  };
+
+  removeFromTail = () => {
+    if (!this.head) return;
+    if (!this.head.next) {
+      const nodeToRemove = this.head;
+      this.head = null;
+      return nodeToRemove.val;
+    }
+    let currentNode = this.head;
+    while (currentNode.next.next) {
+      currentNode = currentNode.next;
+    }
+    const nodeToRemove = currentNode.next;
+    currentNode.next = null;
     return nodeToRemove.val;
   };
 }
@@ -59,3 +75,6 @@ console.log(removedVal); // 3
 
 const nextRemovedVal = myLinkedList.removeFromHead();
 console.log(nextRemovedVal); // 4
+
+const removedLastNode = myLinkedList.removeFromTail();
+console.log(removedLastNode); // 6
