@@ -30,6 +30,13 @@ class LinkedList {
     }
     currentNode.next = newNode;
   };
+
+  removeFromHead = () => {
+    if (!this.head.next) return;
+    const nodeToRemove = this.head.next;
+    this.head.next = nodeToRemove.next;
+    return nodeToRemove.val;
+  };
 }
 
 const myLinkedList = new LinkedList();
@@ -46,4 +53,9 @@ myLinkedList.addToHead(4);
 myLinkedList.addToHead(3);
 
 myLinkedList.addToTail(6);
-console.log(myLinkedList.head.next.next);
+
+const removedVal = myLinkedList.removeFromHead();
+console.log(removedVal); // 3
+
+const nextRemovedVal = myLinkedList.removeFromHead();
+console.log(nextRemovedVal); // 4
