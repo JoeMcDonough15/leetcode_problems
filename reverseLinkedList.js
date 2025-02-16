@@ -20,6 +20,16 @@ class LinkedList {
       this.head.next = newNode;
     }
   };
+
+  addToTail = (val) => {
+    if (val === undefined) return;
+    const newNode = new Node(val);
+    let currentNode = this.head;
+    while (currentNode.next) {
+      currentNode = currentNode.next;
+    }
+    currentNode.next = newNode;
+  };
 }
 
 const myLinkedList = new LinkedList();
@@ -34,4 +44,6 @@ myLinkedList.addToHead(4);
 // console.log(myLinkedList);
 
 myLinkedList.addToHead(3);
-console.log(myLinkedList);
+
+myLinkedList.addToTail(6);
+console.log(myLinkedList.head.next.next);
