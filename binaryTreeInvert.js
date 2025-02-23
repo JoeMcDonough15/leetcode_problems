@@ -35,7 +35,7 @@ class BinaryTree {
     this.root = new TreeNode(rootVal);
   }
 
-  addBalancedNode(val) {
+  addBalancedNode = (val) => {
     const queue = [this.root];
     while (queue.length) {
       const parent = queue.shift();
@@ -49,25 +49,38 @@ class BinaryTree {
       }
       queue.push(parent.left, parent.right);
     }
-  }
+  };
 
   // These methods are to produce unbalanced trees for more test cases
 
-  addNodeToLeft(val, parent = this.root) {
+  addNodeToLeft = (val, parent = this.root) => {
     if (!parent.left) {
       parent.left = new TreeNode(val);
       return;
     }
     this.addNodeToLeft(val, parent.left);
-  }
+  };
 
-  addNodeToRight(val, parent = this.root) {
+  addNodeToRight = (val, parent = this.root) => {
     if (!parent.right) {
       parent.right = new TreeNode(val);
       return;
     }
     this.addNodeToRight(val, parent.right);
-  }
+  };
+
+  // This is the method to solve LeetCode Problem 226. Invert Binary Tree
+  invertTree = (root = this.root) => {
+    if (!root) {
+      return;
+    }
+    this.invertTree(root.left);
+    this.invertTree(root.right);
+    const tempLeft = root.left;
+    root.left = root.right;
+    root.right = tempLeft;
+    return root;
+  };
 }
 
 // Balanced Tree
@@ -139,3 +152,25 @@ console.log("\n\n\n");
 // balancedTree.addNodeToLeft(15, balancedTree.root.left); // since Node 2 has a .left of Node 1, and Node 1 has a .left of null, 15 will become the .left of Node 1
 // console.log(balancedTree.root.left); // prints Node 2, showing its .left of Node 1 and Node 1's .left of Node 15.
 // console.log(balancedTree.root.left.left.left); // prints Node 15
+
+balancedTree.invertTree();
+
+console.log("Inverted Balanced Tree\n");
+console.log(balancedTree);
+console.log(balancedTree.root.left);
+console.log(balancedTree.root.right);
+console.log("\n\n\n");
+
+leftTree.invertTree();
+
+console.log("Inverted Left Tree\n");
+console.log(leftTree);
+console.log(leftTree.root.right);
+console.log("\n\n\n");
+
+rightTree.invertTree();
+
+console.log("Inverted Right Tree\n");
+console.log(rightTree);
+console.log(rightTree.root.left);
+console.log("\n\n\n");
