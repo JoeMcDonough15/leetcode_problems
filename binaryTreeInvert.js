@@ -34,6 +34,7 @@ class BinaryTree {
   constructor(rootVal) {
     this.root = new TreeNode(rootVal);
   }
+
   addBalancedNode(val) {
     const queue = [this.root];
     while (queue.length) {
@@ -49,17 +50,92 @@ class BinaryTree {
       queue.push(parent.left, parent.right);
     }
   }
+
+  // These methods are to produce unbalanced trees for more test cases
+
+  addNodeToLeft(val, parent = this.root) {
+    if (!parent.left) {
+      parent.left = new TreeNode(val);
+      return;
+    }
+    this.addNodeToLeft(val, parent.left);
+  }
+
+  addNodeToRight(val, parent = this.root) {
+    if (!parent.right) {
+      parent.right = new TreeNode(val);
+      return;
+    }
+    this.addNodeToRight(val, parent.right);
+  }
 }
 
-const tree = new BinaryTree(4);
-tree.addBalancedNode(2);
-tree.addBalancedNode(7);
-tree.addBalancedNode(1);
-tree.addBalancedNode(3);
-tree.addBalancedNode(6);
-tree.addBalancedNode(9);
+// Balanced Tree
+const balancedTree = new BinaryTree(4);
+balancedTree.addBalancedNode(2);
+balancedTree.addBalancedNode(7);
+balancedTree.addBalancedNode(1);
+balancedTree.addBalancedNode(3);
+balancedTree.addBalancedNode(6);
+balancedTree.addBalancedNode(9);
 
-console.log(tree);
+console.log("Balanced Tree\n");
+console.log(balancedTree);
+console.log(balancedTree.root.left);
+console.log(balancedTree.root.right);
+console.log("\n\n\n");
 
-console.log(tree.root.left);
-console.log(tree.root.right);
+// Unbalanced Tree to the left
+
+/* 
+
+                     4
+                    / \
+                   2   null
+                  / \
+                 7   null
+                / \
+               1  null
+                    
+
+*/
+
+const leftTree = new BinaryTree(4);
+
+leftTree.addNodeToLeft(2);
+leftTree.addNodeToLeft(7);
+leftTree.addNodeToLeft(1);
+
+console.log("Left Tree\n");
+console.log(leftTree);
+console.log(leftTree.root.left);
+console.log("\n\n\n");
+
+// Unbalanced Tree to the right
+
+/* 
+                     4
+                    / \
+                null   2
+                      / \
+                   null  7
+                        / \
+                    null   1
+*/
+
+const rightTree = new BinaryTree(4);
+
+rightTree.addNodeToRight(2);
+rightTree.addNodeToRight(7);
+rightTree.addNodeToRight(1);
+
+console.log("Right Tree\n");
+console.log(rightTree);
+console.log(rightTree.root.right);
+console.log("\n\n\n");
+
+// Just to test our addNodeToLeft method, we could start at the 2 node of our Balanced Tree, and add to the furthest left of that node
+
+// balancedTree.addNodeToLeft(15, balancedTree.root.left); // since Node 2 has a .left of Node 1, and Node 1 has a .left of null, 15 will become the .left of Node 1
+// console.log(balancedTree.root.left); // prints Node 2, showing its .left of Node 1 and Node 1's .left of Node 15.
+// console.log(balancedTree.root.left.left.left); // prints Node 15
