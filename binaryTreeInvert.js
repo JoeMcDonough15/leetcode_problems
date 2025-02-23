@@ -72,7 +72,7 @@ class BinaryTree {
   // This is the method to solve LeetCode Problem 226. Invert Binary Tree
   invertTree = (root = this.root) => {
     if (!root) {
-      return;
+      return root;
     }
     this.invertTree(root.left);
     this.invertTree(root.right);
