@@ -45,19 +45,31 @@ class BinarySearchTree {
     }
   };
 
-  //   kthSmallest = (root = this.root, k) => {
-  //     const sortedValsArray = [];
+  kthSmallest = (node, k) => {
+    const sortedValsArray = [];
+    // helper function to perform in order traversal and populate sortedValsArray
+    const populateSortedVals = (node) => {
+      if (!node || sortedValsArray.length === k) {
+        return;
+      }
+      populateSortedVals(node.left);
+      sortedValsArray.push(node.val); // push the value to the sortedValsArray
+      populateSortedVals(node.right);
+    };
 
-  //     // helper function to perform in order traversal and populate sortedValsArray
-  //     const populateSortedVals = (node) => {
-  //       if (!node || sortedValsArray.length === k) {
-  //         return;
-  //       }
-  //     };
+    populateSortedVals(node);
 
-  //     return sortedValsArray[k - 1];
-  //   };
+    return sortedValsArray[k - 1];
+  };
 }
+
+//         5
+//       /   \
+//      3     10
+//           /  \
+//          9    15
+//                 \
+//                  20
 
 const myBinarySearchTree = new BinarySearchTree(5);
 myBinarySearchTree.addNode(10);
@@ -65,3 +77,8 @@ myBinarySearchTree.addNode(15);
 myBinarySearchTree.addNode(9);
 myBinarySearchTree.addNode(20);
 myBinarySearchTree.addNode(3);
+
+console.log(myBinarySearchTree.kthSmallest(myBinarySearchTree.root, 5)); // 15
+console.log(myBinarySearchTree.kthSmallest(myBinarySearchTree.root, 1)); // 3
+console.log(myBinarySearchTree.kthSmallest(myBinarySearchTree.root, 2)); // 5
+console.log(myBinarySearchTree.kthSmallest(myBinarySearchTree.root, 4)); // 10
