@@ -110,10 +110,10 @@ class BinaryTree {
         if (node.right) {
           nextLevelNodes.push(node.right);
         }
-        if (nextLevelNodes.length) {
-          queue.push(nextLevelNodes);
-        }
       });
+      if (nextLevelNodes.length) {
+        queue.push(nextLevelNodes);
+      }
     }
     return depthCount;
   };
@@ -144,7 +144,21 @@ unbalancedTreeTwo.addNodeToRight(2);
 
 const emptyTree = new BinaryTree();
 
+//     1
+//    / \
+//   2   3
+//  / \
+// 4   5
+
+const unbalancedTreeThree = new BinaryTree();
+unbalancedTreeThree.addNodeToLeft(1); // root node
+unbalancedTreeThree.addNodeToLeft(2);
+unbalancedTreeThree.addNodeToRight(3);
+unbalancedTreeThree.addNodeToLeft(4);
+unbalancedTreeThree.addNodeToRight(5, unbalancedTreeThree.root.left); // using 2 node as the parent
+
 console.log(unbalancedTreeOne.maxDepth()); // 3
 console.log(unbalancedTreeTwo.maxDepth()); // 2
 console.log(emptyTree.maxDepth()); // 0
 console.log(unbalancedTreeOne.maxDepth(unbalancedTreeOne.root.right)); // 2
+console.log(unbalancedTreeThree.maxDepth()); // 3
