@@ -45,6 +45,10 @@ class BinarySearchTree {
     }
   };
 
+  // Complexity
+  // Time - O(n) for the recursive depth of visiting each node once
+  // Space - O(n) for the size of sortedVals (that would outweigh space needed for recursive depth)
+
   kthSmallest = (node, k) => {
     // helper function to perform in order traversal and populate sortedValsArray
     const populateSortedVals = (node) => {
