@@ -46,7 +46,6 @@ class BinarySearchTree {
   };
 
   kthSmallest = (node, k) => {
-    const sortedValsArray = [];
     // helper function to perform in order traversal and populate sortedValsArray
     const populateSortedVals = (node) => {
       if (!node || sortedValsArray.length === k) {
@@ -57,6 +56,7 @@ class BinarySearchTree {
       populateSortedVals(node.right);
     };
 
+    const sortedValsArray = [];
     populateSortedVals(node);
 
     return sortedValsArray[k - 1];
