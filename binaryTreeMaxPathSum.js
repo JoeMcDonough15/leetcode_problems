@@ -93,6 +93,10 @@ class BinaryTree {
     }
   }
 
+  // Time Complexity - O(n) because we only ever visit each node once
+  // Space Complexity - O(height of the tree), which, if balanced, would be O(log(n)), but worst case could be O(n)
+  // where n is the number of nodes in an unbalanced tree because each node would represent its own level of the tree.
+
   maxPathSum = (root) => {
     let maxSum = root.val;
 
