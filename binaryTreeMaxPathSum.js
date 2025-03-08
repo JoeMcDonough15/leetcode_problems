@@ -92,18 +92,44 @@ class BinaryTree {
       startNode.right = new TreeNode(val);
     }
   }
+
+  maxPathSum = (root) => {
+    let maxSum = root.val;
+
+    const dfs = (node) => {
+      if (!node) {
+        return 0;
+      }
+
+      let leftMax = dfs(node.left);
+      let rightMax = dfs(node.right);
+      leftMax = Math.max(leftMax, 0); // to correct if leftMax is negative
+      rightMax = Math.max(rightMax, 0); // to correct if rightMax is negative
+
+      // update maxSum if the sum achieved by splitting from this node is bigger than it
+      maxSum = Math.max(node.val + leftMax + rightMax, maxSum);
+
+      // return back the max sum if we were to not split from this node - is it to the left or to the right?
+      return Math.max(node.val + leftMax, node.val + rightMax);
+    };
+
+    dfs(root);
+    return maxSum;
+  };
 }
 
-const treeOne = new BinaryTree(1);
+const treeOne = new BinaryTree(1); // root node
 treeOne.addToBalancedTree(2);
 treeOne.addToBalancedTree(3);
 
-console.log(treeOne);
-
-const treeTwo = new BinaryTree(-10);
+const treeTwo = new BinaryTree(-10); // root node
 treeTwo.addToBalancedTree(9);
 treeTwo.addToBalancedTree(20);
 treeTwo.addToLeft(15, treeTwo.root.right); // start from the 20 node
 treeTwo.addToRight(7, treeTwo.root.right); // start from the 20 node
-console.log(treeTwo);
-console.log(treeTwo.root.right);
+
+const treeThree = new BinaryTree(-3); // root node
+
+console.log(treeOne.maxPathSum(treeOne.root)); // 6
+console.log(treeTwo.maxPathSum(treeTwo.root)); // 42
+console.log(treeThree.maxPathSum(treeThree.root)); // -3
