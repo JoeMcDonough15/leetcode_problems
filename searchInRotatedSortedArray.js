@@ -29,6 +29,34 @@
 // nums is an ascending array that is possibly rotated.
 // -104 <= target <= 104
 
+// Attempt:
+
+// This is a Binary Search Problem but with a twist of needing to determine where in the array the rotation occurs
+
+// * 1. Determine where the rotation occurs
+
+// Scenario 1: the rotation has happened before or at the mid point.  The way we can verify this is by looking at the mid point.  If the mid point is less than the first value of the array, then that means the rotation either happens before or at the mid point.
+// e.g. [10, 12, 4, 5, 6, 7, 8] <— 5 is less than 10, so the rotation happens at or before the mid point
+
+// Scenario 2:  the rotation happens after the mid point.  We will know we are in this scenario if the value at the end of the array is ever less than the mid point.    If the last number of the array is ever less than the mid point, then that means the rotation happens after the mid point.
+// e.g. [2, 3, 4, 5, 6, 0, 1] <— 1 is less than 5, so the rotation happens after the mid point.
+
+// * 2. Determine which direction the target would be based on when the rotation occurs.
+
+// ? In Scenario 1:
+
+// if the rotation has happened at or before the mid point and the target we are looking for is greater than array[0], the target must be to the left of the mid point.
+// If the rotation has happened at or before the mid point, and the target is greater than the mid point but less than array[0], the target must be to the right of the mid point.
+// If the rotation has happened at or before the mid point, and the target is less than the mid point, the target must be to the left of the mid point.
+
+// ? In Scenario 2:
+
+// If the rotation happens after the mid point, and the target is greater than the last number in the array and less than the mid point, the target must be to the left of the mid point.
+// If the rotation happens after the mid point, and the target is greater than the mid point, the target must be to the right of the mid point.
+// If the rotation happens after the mid point, and the target is less than the last value of the array, the target must be to the right of the mid point.
+
+// Time Complexity - O(log n)
+// Space Complexity - O(1); // ! Does a while loop occupy space?  Everything else seems like it would be O(1)
 const search = (nums, target) => {
   let low = 0;
   let high = nums.length - 1;
@@ -77,3 +105,4 @@ console.log(search([1], 0)); // -1
 console.log(search([1, 2, 3], 2)); // 1
 console.log(search([3, 1], 1)); // 1
 console.log(search([5, 1, 3], 5)); // 0
+console.log(search([0, 1, 2, 3, 4, 5], 5)); // 5,  no rotation occurs
