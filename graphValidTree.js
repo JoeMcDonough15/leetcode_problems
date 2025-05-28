@@ -28,12 +28,15 @@ const validTree = (n, edges) => {
   }
   // dfs function to check for cycles and return false if we find any.  Since null will never be placed in a sub array in adjArr, null can be used as the default value for when there is not a previous node (only for the original function call since all the recursive calls will have a previous node)
   const dfs = (node, prevNode = null) => {
+    if (visited.has(node)) {
+      return false;
+    }
     visited.add(node);
     const connections = adjArr[node]; // since each node is represented as an index of the adjArr and that node's connecting nodes are contained in a sub array at that index.
     for (const connectingNode of connections) {
       if (connectingNode === prevNode) continue;
       // if we have visited this node before or if the recursive call returns false
-      if (visited.has(connectingNode) || !dfs(connectingNode, node)) {
+      if (!dfs(connectingNode, node)) {
         return false;
       }
     }
