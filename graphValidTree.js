@@ -14,7 +14,7 @@ const validTree = (n, edges) => {
   const visited = new Set();
   const adjArr = new Array(n); // if we fill this with empty arrays, I think they're all of the same reference!!!!!  This was causing bugs: new Array(n).fill([])
 
-  // populate adjacency array
+  // populate adjacency array, where nodes will be represented by indices and connections represented by subarrays that live at those indices.
   for (let i = 0; i < edges.length; i++) {
     const [node1, node2] = edges[i];
     if (!adjArr[node1]) {
@@ -26,17 +26,14 @@ const validTree = (n, edges) => {
     }
     adjArr[node2].push(node1);
   }
-  // dfs function to check for cycles and return false if we find any
-  const dfs = (node, prevNode) => {
-    // if (visited.has(node)) {
-    //   return false;
-    // }
+  // dfs function to check for cycles and return false if we find any.  Since null will never be placed in a sub array in adjArr, null can be used as the default value for when there is not a previous node (only for the original function call since all the recursive calls will have a previous node)
+  const dfs = (node, prevNode = null) => {
     visited.add(node);
-    const connections = adjArr[node];
+    const connections = adjArr[node]; // since each node is represented as an index of the adjArr and that node's connecting nodes are contained in a sub array at that index.
     for (const connectingNode of connections) {
       if (connectingNode === prevNode) continue;
-      if (visited.has(connectingNode)) return false;
-      if (!dfs(connectingNode, node)) {
+      // if we have visited this node before or if the recursive call returns false
+      if (visited.has(connectingNode) || !dfs(connectingNode, node)) {
         return false;
       }
     }
@@ -44,7 +41,7 @@ const validTree = (n, edges) => {
   };
 
   // return the assertion that we did not find any cycles and that the size of the visited set includes every node (because there can be no free standing nodes in a valid tree)
-  return dfs(0, -1) && visited.size === n;
+  return dfs(0) && visited.size === n;
 };
 
 /*
@@ -105,5 +102,30 @@ console.log(
     [0, 1],
     [0, 2],
     [1, 3],
+  ])
+);
+
+/*
+
+TEST 4: true; valid 6 node tree
+
+
+     0
+    /  \
+   1    2
+  /    /  \
+ 3    4    5
+      
+
+
+*/
+
+console.log(
+  validTree(6, [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+    [2, 4],
+    [2, 5],
   ])
 );
