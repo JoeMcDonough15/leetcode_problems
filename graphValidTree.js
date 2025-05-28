@@ -28,13 +28,14 @@ const validTree = (n, edges) => {
   }
   // dfs function to check for cycles and return false if we find any
   const dfs = (node, prevNode) => {
-    if (visited.has(node)) {
-      return false;
-    }
+    // if (visited.has(node)) {
+    //   return false;
+    // }
     visited.add(node);
     const connections = adjArr[node];
     for (const connectingNode of connections) {
       if (connectingNode === prevNode) continue;
+      if (visited.has(connectingNode)) return false;
       if (!dfs(connectingNode, node)) {
         return false;
       }
@@ -45,3 +46,64 @@ const validTree = (n, edges) => {
   // return the assertion that we did not find any cycles and that the size of the visited set includes every node (because there can be no free standing nodes in a valid tree)
   return dfs(0, -1) && visited.size === n;
 };
+
+/*
+
+TEST 1: true; valid 4 node tree
+
+     0
+    /  \
+   1    2
+  /
+ 3
+
+ */
+
+console.log(
+  validTree(4, [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+  ])
+);
+
+/*
+
+ TEST 2: false; 4 node graph with a cycle
+
+     0
+    /  \
+   1    2
+    \  /
+      3 
+
+*/
+
+console.log(
+  validTree(4, [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+    [2, 3],
+  ])
+);
+
+/* TEST 3: false; 5 node graph with an island node
+
+     0
+    /  \
+   1    2
+  /
+ 3 
+      4
+
+
+*/
+
+console.log(
+  validTree(5, [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+  ])
+);
